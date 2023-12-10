@@ -1,4 +1,4 @@
 export type IGenericErorMessages = {
-  path: string
-  message: string
-}
+  path: string | number;
+  message: string;
+};
