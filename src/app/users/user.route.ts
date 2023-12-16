@@ -1,6 +1,6 @@
 import express from 'express';
-import { userController } from './user.controllers';
 import validateRequest from '../middlewares/validateRequest';
+import { userController } from './user.controllers';
 import { UserValidation } from './user.validation';
 
 const router = express.Router();
@@ -13,4 +13,4 @@ router.post(
   userController.createUser,
 );
 
-export default router;
+export const userRoutes = router;
