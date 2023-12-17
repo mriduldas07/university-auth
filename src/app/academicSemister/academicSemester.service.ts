@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import ApiError from '../../erros/ApiError';
+import { IPaginationOptions } from '../interfaces/pagination';
 import { academicSemesterTitleCodeMapper } from './academicSemester.constant';
 import { IAcademicSemester } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemesterModel';
@@ -14,6 +15,9 @@ const creatSemester = async (
   return result;
 };
 
+const getAllSemesters = (paginationOptions: IPaginationOptions) => {};
+
 export const academicSemesterServices = {
   creatSemester,
+  getAllSemesters,
 };
