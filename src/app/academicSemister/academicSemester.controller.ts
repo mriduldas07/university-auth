@@ -4,6 +4,8 @@ import { paginationFields } from '../../constants/pagination';
 import catchAsync from '../shared/catchAsync';
 import pick from '../shared/pick';
 import sendResponse from '../shared/sendResponse';
+import { academicSemesterFilterableFields } from './academicSemester.constant';
+import { IAcademicSemester } from './academicSemester.interface';
 import { academicSemesterServices } from './academicSemester.service';
 
 const createAcademicSemester = catchAsync(
@@ -30,17 +32,36 @@ const getAllSemester = catchAsync(
     //   sortBy: req.query.sortBy,
     //   sortOrder: req.query.sortOrder,
     // };
+    const filters = pick(req.query, academicSemesterFilterableFields);
 
     const paginationOptions = pick(req.query, paginationFields);
 
-    const result =
-      await academicSemesterServices.getAllSemesters(paginationOptions);
+    const result = await academicSemesterServices.getAllSemesters(
+      filters,
+      paginationOptions,
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Semester retirieved successfully',
+      message: 'Semesters retrieved successfully',
       meta: result.meta,
       data: result.data,
+    });
+    next();
+  },
+);
+
+const getSingleSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+
+    const result = await academicSemesterServices.getSingleSemester(id);
+
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester retrieved successfully',
+      data: result,
     });
     next();
   },
@@ -49,4 +70,5 @@ const getAllSemester = catchAsync(
 export const academicSemesterController = {
   createAcademicSemester,
   getAllSemester,
+  getSingleSemester,
 };
