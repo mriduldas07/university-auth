@@ -67,8 +67,13 @@ const getSingleSemester = catchAsync(
   },
 );
 
+const updateSemester = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {},
+);
+
 export const academicSemesterController = {
   createAcademicSemester,
   getAllSemester,
   getSingleSemester,
+  updateSemester,
 };
