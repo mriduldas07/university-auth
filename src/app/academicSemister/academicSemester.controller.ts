@@ -39,7 +39,8 @@ const getAllSemester = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: 'Semester retirieved successfully',
-      data: result,
+      meta: result.meta,
+      data: result.data,
     });
     next();
   },
