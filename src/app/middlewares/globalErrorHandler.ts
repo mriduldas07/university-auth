@@ -7,6 +7,7 @@ import handleValidationError from '../../erros/handleValidationError';
 import handleZodError from '../../erros/handleZodError';
 import { IGenericErorMessages } from '../interfaces/error';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = 500;
   let message = 'Something went wrong!';
@@ -54,8 +55,6 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     errorMessages,
     stack: config.env !== 'production' ? err?.stack : undefined,
   });
-
-  next();
 };
 
 export default globalErrorHandler;

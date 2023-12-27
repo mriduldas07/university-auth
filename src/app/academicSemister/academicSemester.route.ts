@@ -9,13 +9,18 @@ const router = express.Router();
 //create-semester
 router.post(
   '/create-semester',
-  validateRequest(AcademicSemesterValidation.academicSemesterZodSchema),
+  validateRequest(AcademicSemesterValidation.createAcademicSemesterZodSchema),
   academicSemesterController.createAcademicSemester,
 );
 
 router.get('/:id', academicSemesterController.getSingleSemester);
 
+router.patch(
+  '/:id',
+  validateRequest(AcademicSemesterValidation.updateAcademicSemesterZodSchema),
+  academicSemesterController.updateSemester,
+);
+router.delete('/:id', academicSemesterController.deleteSemester);
 router.get('/', academicSemesterController.getAllSemester);
-router.patch('/', academicSemesterController.updateSemester);
 
 export const academicSemesterRoutes = router;
