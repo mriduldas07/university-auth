@@ -15,7 +15,11 @@ router.post(
 );
 
 router.get('/:id', academicFacultyController.getSingelFaculty);
-router.patch('/:id', academicFacultyController.updateFaculty);
+router.patch(
+  '/:id',
+  validateRequest(AcademicFacultyValidation.updateAcademicFacultyZodSchema),
+  academicFacultyController.updateFaculty,
+);
 router.delete('/:id', academicFacultyController.deleteFaculty);
 
 router.get('/', academicFacultyController.getAllFaculty);
