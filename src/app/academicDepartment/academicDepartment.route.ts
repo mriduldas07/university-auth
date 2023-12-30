@@ -12,5 +12,6 @@ router.post(
   ),
   AcademicDepartmentController.createDepartment,
 );
+router.get('/', AcademicDepartmentController.getAllDepartment);
 
 export const academicDepartmentRoutes = router;

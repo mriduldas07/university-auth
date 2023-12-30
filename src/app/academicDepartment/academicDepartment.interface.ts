@@ -8,7 +8,7 @@ export type IAcademicDepartment = {
 
 export type AcademicDeparmentModel = Model<IAcademicDepartment, object>;
 
-export type IAcademicDepartmentFilterRequest = {
+export type IAcademicDepartmentFilters = {
   searchTerm?: string;
   academicFaculty?: Types.ObjectId;
 };
