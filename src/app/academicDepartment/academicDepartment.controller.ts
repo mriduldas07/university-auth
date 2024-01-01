@@ -5,6 +5,7 @@ import catchAsync from '../shared/catchAsync';
 import pick from '../shared/pick';
 import sendResponse from '../shared/sendResponse';
 import { academicDepartmentFilterableFields } from './academicDepartment.constant';
+import { IAcademicDepartment } from './academicDepartment.interface';
 import { AcademicDepartmentServices } from './academicDepartment.services';
 
 const createDepartment = catchAsync(async (req: Request, res: Response) => {
@@ -37,7 +38,21 @@ const getAllDepartment = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const result = await AcademicDepartmentServices.getSingleDepartment(id);
+
+  sendResponse<IAcademicDepartment>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Department retrieved successfully',
+    data: result,
+  });
+});
+
 export const AcademicDepartmentController = {
   createDepartment,
   getAllDepartment,
+  getSingleDepartment,
 };
