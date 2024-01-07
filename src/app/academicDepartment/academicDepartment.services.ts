@@ -12,7 +12,9 @@ import { AcademicDepartment } from './academicDepartment.model';
 const createDepartment = async (
   payload: IAcademicDepartment,
 ): Promise<IAcademicDepartment> => {
-  const result = await AcademicDepartment.create(payload);
+  const result = await (
+    await AcademicDepartment.create(payload)
+  ).populate('academicFaculty');
   return result;
 };
 
@@ -90,14 +92,15 @@ const updateDepartment = async (
     {
       new: true,
     },
-  );
+  ).populate('academicFaculty');
   return result;
 };
 
 const deleteDepartment = async (
   id: string,
 ): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findByIdAndDelete(id);
+  const result =
+    await AcademicDepartment.findByIdAndDelete(id).populate('academicFaculty');
   return result;
 };
 
