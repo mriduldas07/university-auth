@@ -1,15 +1,56 @@
-import { User } from './user.model'
+import { IAcademicSemester } from '../academicSemister/academicSemester.interface';
+import { User } from './user.model';
 
-const lastUserId = async () => {
-  const lastUser = await User.findOne({}, { id: 1, _id: 0 })
+// last student id
+const findLastStudentId = async () => {
+  const lastStudent = await User.findOne(
+    {
+      role: 'student',
+    },
+    { id: 1, _id: 0 },
+  )
     .sort({ createdAt: -1 })
-    .lean()
-  return lastUser?.id
-}
+    .lean();
+  return lastStudent?.id ? lastStudent.id.substring(4) : undefined;
+};
 
-export const genarateUserId = async () => {
-  const currentId = (await lastUserId()) || (0).toString().padStart(5, '0') //00000 or database id
+// last faculty id
+const findLastFacultyId = async () => {
+  const lastFaculty = await User.findOne(
+    {
+      role: 'faculty',
+    },
+    { id: 1, _id: 0 },
+  )
+    .sort({ createdAt: -1 })
+    .lean();
+  return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
+};
+
+// generate student id with last two digit of year + code + 5 digit string
+export const genarateStudentId = async (
+  academicSemester: IAcademicSemester,
+) => {
+  const currentId =
+    (await findLastStudentId()) || (0).toString().padStart(5, '0'); //00000 or database id
   // increment by 1
-  const incrementalId = (parseInt(currentId) + 1).toString().padStart(5, '0')
-  return incrementalId
-}
+  let incrementalId = (parseInt(currentId) + 1).toString().padStart(5, '0');
+
+  incrementalId = `${academicSemester.year.substring(2)}${
+    academicSemester.code
+  }${incrementalId}`;
+
+  return incrementalId;
+};
+
+// generate faculty id with "F" and 5 digit string
+export const genarateFacultyId = async () => {
+  const currentId =
+    (await findLastFacultyId()) || (0).toString().padStart(5, '0');
+
+  let incrementalId = (parseInt(currentId) + 1).toString().padStart(5, '0');
+
+  incrementalId = `F-${incrementalId}`;
+
+  return incrementalId;
+};
