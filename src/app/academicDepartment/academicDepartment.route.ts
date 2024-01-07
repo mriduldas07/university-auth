@@ -13,6 +13,14 @@ router.post(
   AcademicDepartmentController.createDepartment,
 );
 
+router.patch(
+  '/:id',
+  validateRequest(
+    AcademicDepartmentValidation.updateAcademicDepartmentZodSchema,
+  ),
+  AcademicDepartmentController.updateDepartment,
+);
+router.delete('/:id', AcademicDepartmentController.deleteDepartment);
 router.get('/:id', AcademicDepartmentController.getSingleDepartment);
 router.get('/', AcademicDepartmentController.getAllDepartment);
 
