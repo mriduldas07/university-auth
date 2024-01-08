@@ -1,19 +1,29 @@
 import config from '../../../config';
+import { AcademicSemester } from '../academicSemister/academicSemesterModel';
+import { IStudent } from '../student/student.interface';
 import { User } from './user.model';
 import { genarateStudentId } from './user.utils';
 import { IUser } from './users.interface';
 
-const createUser = async (user: IUser): Promise<IUser | null> => {
-  const academicSemester = {
-    code: '01',
-    year: '2025',
-  };
-  const id = await genarateStudentId(academicSemester);
-  user.id = id;
-
+const createStudent = async (
+  student: IStudent,
+  user: IUser,
+): Promise<IUser | null> => {
+  // default password
   if (!user.password) {
-    user.password = config.default_user_pass as string;
+    user.password = config.default_student_pass as string;
   }
+
+  // set role
+  user.role = 'student';
+
+  // find academic semester
+  const academicSemester = await AcademicSemester.findById(
+    student.academicSemester,
+  );
+
+  // genarate student id
+  const id = await genarateStudentId(academicSemester);
   const createUser = await User.create(user);
   if (!createUser) {
     throw new Error('Failed to create user');
@@ -22,5 +32,5 @@ const createUser = async (user: IUser): Promise<IUser | null> => {
 };
 
 export const userServices = {
-  createUser,
+  createStudent,
 };

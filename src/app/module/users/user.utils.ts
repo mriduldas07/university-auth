@@ -29,15 +29,15 @@ const findLastFacultyId = async () => {
 
 // generate student id with last two digit of year + code + 5 digit string
 export const genarateStudentId = async (
-  academicSemester: IAcademicSemester,
+  academicSemester: IAcademicSemester | null,
 ) => {
   const currentId =
     (await findLastStudentId()) || (0).toString().padStart(5, '0'); //00000 or database id
   // increment by 1
   let incrementalId = (parseInt(currentId) + 1).toString().padStart(5, '0');
 
-  incrementalId = `${academicSemester.year.substring(2)}${
-    academicSemester.code
+  incrementalId = `${academicSemester!.year.substring(2)}${
+    academicSemester!.code
   }${incrementalId}`;
 
   return incrementalId;

@@ -8,9 +8,9 @@ const router = express.Router();
 //rourtes
 //create-user
 router.post(
-  '/create-user',
+  '/create-student',
   validateRequest(UserValidation.createUserZodSchema),
-  userController.createUser,
+  userController.createStudent,
 );
 
 export const userRoutes = router;
