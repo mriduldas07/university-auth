@@ -1,9 +1,9 @@
 import httpStatus from 'http-status';
 import { SortOrder } from 'mongoose';
-import ApiError from '../../erros/ApiError';
-import { paginationHelpers } from '../../helpers/paginationHelper';
-import { IGenericResponse } from '../interfaces/common';
-import { IPaginationOptions } from '../interfaces/pagination';
+import ApiError from '../../../erros/ApiError';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../interfaces/common';
+import { IPaginationOptions } from '../../interfaces/pagination';
 import {
   academicSemesterSearchableFields,
   academicSemesterTitleCodeMapper,

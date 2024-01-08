@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import { Schema, model } from 'mongoose';
-import ApiError from '../../erros/ApiError';
+import ApiError from '../../../erros/ApiError';
 import {
   AcademicFacultyModel,
   IAcademicFaculty,
