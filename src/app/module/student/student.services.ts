@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from 'http-status';
 import { SortOrder } from 'mongoose';
+import ApiError from '../../../erros/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../interfaces/common';
 import { IPaginationOptions } from '../../interfaces/pagination';
@@ -73,15 +76,50 @@ const getSingleStudent = async (id: string): Promise<IStudent | null> => {
     .populate('academicSemester');
   return result;
 };
-// const updatedStudent = async (
-//   id: string,
-//   payload: Partial<IStudent>,
-// ): Promise<IStudent | null> => {
-//   const result = await Student.findOneAndUpdate({ _id: id }, payload, {
-//     new: true,
-//   });
-//   return result;
-// };
+const updatedStudent = async (
+  id: string,
+  payload: Partial<IStudent>,
+): Promise<IStudent | null> => {
+  const isExists = await Student.findOne({ id });
+
+  if (!isExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Student not found');
+  }
+
+  const { name, guardian, localGuardian, ...studentData } = payload;
+
+  const updatedStudentData: Partial<IStudent> = { ...studentData };
+
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}`;
+
+      (updatedStudentData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
+
+  if (guardian && Object.keys(guardian).length > 0) {
+    Object.keys(guardian).forEach(key => {
+      const guardianKey = `guardian.${key}`;
+
+      (updatedStudentData as any)[guardianKey] =
+        guardian[key as keyof typeof guardian];
+    });
+  }
+  if (localGuardian && Object.keys(localGuardian).length > 0) {
+    Object.keys(localGuardian).forEach(key => {
+      const localGuardianKey = `guardian.${key}`;
+
+      (updatedStudentData as any)[localGuardianKey] =
+        localGuardian[key as keyof typeof localGuardian];
+    });
+  }
+
+  const result = await Student.findOneAndUpdate({ id }, updatedStudentData, {
+    new: true,
+  });
+  return result;
+};
 
 const deleteStudent = async (id: string): Promise<IStudent | null> => {
   const result = await Student.findByIdAndDelete(id)
