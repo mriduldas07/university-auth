@@ -9,11 +9,16 @@ const router = express.Router();
 //create-student
 router.post(
   '/create-student',
-  validateRequest(UserValidation.createUserZodSchema),
+  validateRequest(UserValidation.createStudentZodSchema),
   userController.createStudent,
 );
 
 //create faculty
+router.post(
+  '/create-faculty',
+  validateRequest(UserValidation.createFacultyZodSchema),
+  userController.createFaculty,
+);
 // create department
 
 export const userRoutes = router;
