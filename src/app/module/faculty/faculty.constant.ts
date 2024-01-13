@@ -5,6 +5,7 @@ export const facultySearchableFields = [
   'name.firstName',
   'name.middleName',
   'name.lastName',
+  'designation',
 ];
 export const facultyFilterableFields = [
   'searchTerm',

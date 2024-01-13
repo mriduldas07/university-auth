@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { bloodGroup } from '../student/student.constant';
+import { bloodGroup } from '../../../constants/user';
 
 const createStudentZodSchema = z.object({
   body: z.object({
