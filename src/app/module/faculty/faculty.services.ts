@@ -66,13 +66,12 @@ const getAllFaculties = async (
   };
 };
 
-// const getSingleStudent = async (id: string): Promise<IStudent | null> => {
-//   const result = await Student.findById(id)
-//     .populate('academicFaculty')
-//     .populate('academicDepartment')
-//     .populate('academicSemester');
-//   return result;
-// };
+const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
+  const result = await Faculty.findById(id)
+    .populate('academicFaculty')
+    .populate('academicDepartment');
+  return result;
+};
 // const updatedStudent = async (
 //   id: string,
 //   payload: Partial<IStudent>,
@@ -128,4 +127,5 @@ const getAllFaculties = async (
 
 export const FacultyServices = {
   getAllFaculties,
+  getSingleFaculty,
 };

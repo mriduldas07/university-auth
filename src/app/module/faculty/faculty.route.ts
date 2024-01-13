@@ -6,7 +6,7 @@ const router = express.Router();
 //rourtes
 
 //get single faculties
-router.get('/:id');
+router.get('/:id', FacultiesController.getSingleFaculty);
 router.get('/:id');
 
 //upadate faculties
