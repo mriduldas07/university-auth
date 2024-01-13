@@ -39,20 +39,20 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updateStudent = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
+const updatedFaculty = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-//   const updatedData = req.body;
+  const updatedData = req.body;
 
-//   const result = await StudentServices.updatedStudent(id, updatedData);
+  const result = await FacultyServices.updatedFaculty(id, updatedData);
 
-//   sendResponse<IStudent>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Student updated successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IFaculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculty updated successfully',
+    data: result,
+  });
+});
 
 // const deleteStudent = catchAsync(async (req: Request, res: Response) => {
 //   const id = req.params.id;
@@ -70,4 +70,5 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
 export const FacultiesController = {
   getAllFaculties,
   getSingleFaculty,
+  updatedFaculty,
 };
