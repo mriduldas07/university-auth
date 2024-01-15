@@ -12,9 +12,15 @@ router.post(
   ),
   ManagementDepartmentController.createManagement,
 );
-
-router.patch('/:id');
-router.delete('/:id');
+// upadate management
+router.patch(
+  '/:id',
+  validateRequest(
+    ManagementDepartmentValidation.updateManagementDepartmentZodSchema,
+  ),
+  ManagementDepartmentController.updateManagement,
+);
+// router.delete('/:id');
 // get single management
 router.get('/:id', ManagementDepartmentController.getSingleManagement);
 // get all management

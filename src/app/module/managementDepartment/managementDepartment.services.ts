@@ -78,19 +78,19 @@ const getSingleManagement = async (
   return result;
 };
 
-// const updateDepartment = async (
-//   id: string,
-//   payload: Partial<IAcademicDepartment>,
-// ): Promise<IAcademicDepartment | null> => {
-//   const result = await AcademicDepartment.findOneAndUpdate(
-//     { _id: id },
-//     payload,
-//     {
-//       new: true,
-//     },
-//   ).populate('academicFaculty');
-//   return result;
-// };
+const updateManagement = async (
+  id: string,
+  payload: Partial<IManagementDepartment>,
+): Promise<IManagementDepartment | null> => {
+  const result = await ManagementDepartment.findOneAndUpdate(
+    { _id: id },
+    payload,
+    {
+      new: true,
+    },
+  );
+  return result;
+};
 
 // const deleteDepartment = async (
 //   id: string,
@@ -104,4 +104,5 @@ export const ManagementDepartmentServices = {
   createManagement,
   getAllManagement,
   getSingleManagement,
+  updateManagement,
 };
