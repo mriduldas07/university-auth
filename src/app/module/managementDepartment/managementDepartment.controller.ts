@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../shared/catchAsync';
+import pick from '../../shared/pick';
 import sendResponse from '../../shared/sendResponse';
+import { managementDepartmentFilterableFields } from './managementDepartment.constant';
 import { ManagementDepartmentServices } from './managementDepartment.services';
 
 const createManagement = catchAsync(async (req: Request, res: Response) => {
@@ -17,22 +20,22 @@ const createManagement = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const getAllDepartment = catchAsync(async (req: Request, res: Response) => {
-//   const filter = pick(req.query, academicDepartmentFilterableFields);
-//   const paginationOptins = pick(req.query, paginationFields);
+const getAllManagement = catchAsync(async (req: Request, res: Response) => {
+  const filter = pick(req.query, managementDepartmentFilterableFields);
+  const paginationOptins = pick(req.query, paginationFields);
 
-//   const result = await AcademicDepartmentServices.getAllDepartment(
-//     filter,
-//     paginationOptins,
-//   );
+  const result = await ManagementDepartmentServices.getAllManagement(
+    filter,
+    paginationOptins,
+  );
 
-//   sendResponse(res, {
-//     statusCode: httpStatus.CREATED,
-//     success: true,
-//     message: 'Academic Department retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Management Department retrieved successfully',
+    data: result,
+  });
+});
 
 // const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
 //   const id = req.params.id;
@@ -80,4 +83,5 @@ const createManagement = catchAsync(async (req: Request, res: Response) => {
 
 export const ManagementDepartmentController = {
   createManagement,
+  getAllManagement,
 };

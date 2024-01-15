@@ -5,3 +5,7 @@ export type IManagementDepartment = {
 };
 
 export type IManagementDepartmentModel = Model<IManagementDepartment, object>;
+
+export type IManagementDepartmentFilters = {
+  searchTerm?: string;
+};

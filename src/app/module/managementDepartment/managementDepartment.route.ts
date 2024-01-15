@@ -4,7 +4,7 @@ import { ManagementDepartmentController } from './managementDepartment.controlle
 import { ManagementDepartmentValidation } from './managementDepartment.validation';
 
 const router = express.Router();
-
+// create management
 router.post(
   '/create-management',
   validateRequest(
@@ -16,6 +16,7 @@ router.post(
 router.patch('/:id');
 router.delete('/:id');
 router.get('/:id');
-router.get('/');
+// get all management
+router.get('/', ManagementDepartmentController.getAllManagement);
 
 export const managementDepartmentRoutes = router;
