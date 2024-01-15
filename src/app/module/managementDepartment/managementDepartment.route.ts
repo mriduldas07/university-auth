@@ -20,7 +20,8 @@ router.patch(
   ),
   ManagementDepartmentController.updateManagement,
 );
-// router.delete('/:id');
+// delete management
+router.delete('/:id', ManagementDepartmentController.deleteManagement);
 // get single management
 router.get('/:id', ManagementDepartmentController.getSingleManagement);
 // get all management

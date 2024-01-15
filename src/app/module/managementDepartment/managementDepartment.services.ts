@@ -92,17 +92,17 @@ const updateManagement = async (
   return result;
 };
 
-// const deleteDepartment = async (
-//   id: string,
-// ): Promise<IAcademicDepartment | null> => {
-//   const result =
-//     await AcademicDepartment.findByIdAndDelete(id).populate('academicFaculty');
-//   return result;
-// };
+const deleteManagement = async (
+  id: string,
+): Promise<IManagementDepartment | null> => {
+  const result = await ManagementDepartment.findByIdAndDelete(id);
+  return result;
+};
 
 export const ManagementDepartmentServices = {
   createManagement,
   getAllManagement,
   getSingleManagement,
   updateManagement,
+  deleteManagement,
 };
