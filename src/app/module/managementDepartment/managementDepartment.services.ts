@@ -71,13 +71,12 @@ const getAllManagement = async (
   };
 };
 
-// const getSingleDepartment = async (
-//   id: string,
-// ): Promise<IAcademicDepartment | null> => {
-//   const result =
-//     await AcademicDepartment.findById(id).populate('academicFaculty');
-//   return result;
-// };
+const getSingleManagement = async (
+  id: string,
+): Promise<IManagementDepartment | null> => {
+  const result = await ManagementDepartment.findById(id);
+  return result;
+};
 
 // const updateDepartment = async (
 //   id: string,
@@ -104,4 +103,5 @@ const getAllManagement = async (
 export const ManagementDepartmentServices = {
   createManagement,
   getAllManagement,
+  getSingleManagement,
 };

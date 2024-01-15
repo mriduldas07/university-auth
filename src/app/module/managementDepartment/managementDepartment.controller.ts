@@ -5,6 +5,7 @@ import catchAsync from '../../shared/catchAsync';
 import pick from '../../shared/pick';
 import sendResponse from '../../shared/sendResponse';
 import { managementDepartmentFilterableFields } from './managementDepartment.constant';
+import { IManagementDepartment } from './managementDepartment.interface';
 import { ManagementDepartmentServices } from './managementDepartment.services';
 
 const createManagement = catchAsync(async (req: Request, res: Response) => {
@@ -37,18 +38,18 @@ const getAllManagement = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const getSingleDepartment = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
+const getSingleManagement = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-//   const result = await AcademicDepartmentServices.getSingleDepartment(id);
+  const result = await ManagementDepartmentServices.getSingleManagement(id);
 
-//   sendResponse<IAcademicDepartment>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Academic Department retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IManagementDepartment>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Management Department retrieved successfully',
+    data: result,
+  });
+});
 
 // const updateDepartment = catchAsync(async (req: Request, res: Response) => {
 //   const id = req.params.id;
@@ -84,4 +85,5 @@ const getAllManagement = catchAsync(async (req: Request, res: Response) => {
 export const ManagementDepartmentController = {
   createManagement,
   getAllManagement,
+  getSingleManagement,
 };

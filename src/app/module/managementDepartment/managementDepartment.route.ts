@@ -15,7 +15,8 @@ router.post(
 
 router.patch('/:id');
 router.delete('/:id');
-router.get('/:id');
+// get single management
+router.get('/:id', ManagementDepartmentController.getSingleManagement);
 // get all management
 router.get('/', ManagementDepartmentController.getAllManagement);
 
