@@ -36,20 +36,20 @@ const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const updatedFaculty = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
+const updatedAdmin = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-//   const updatedData = req.body;
+  const updatedData = req.body;
 
-//   const result = await FacultyServices.updatedFaculty(id, updatedData);
+  const result = await AdminServices.updatedAdmin(id, updatedData);
 
-//   sendResponse<IFaculty>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Faculty updated successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IAdmin>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin updated successfully',
+    data: result,
+  });
+});
 
 // const deleteStudent = catchAsync(async (req: Request, res: Response) => {
 //   const id = req.params.id;
@@ -67,4 +67,5 @@ const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
 export const AdminsController = {
   getAllAdmins,
   getSingleAdmin,
+  updatedAdmin,
 };

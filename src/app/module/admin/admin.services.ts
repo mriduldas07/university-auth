@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import httpStatus from 'http-status';
 import { SortOrder } from 'mongoose';
+import ApiError from '../../../erros/ApiError';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../interfaces/common';
 import { IPaginationOptions } from '../../interfaces/pagination';
@@ -69,33 +71,33 @@ const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
   const result = await Admin.findById(id).populate('managementDepartment');
   return result;
 };
-// const updatedFaculty = async (
-//   id: string,
-//   payload: Partial<IFaculty>,
-// ): Promise<IFaculty | null> => {
-//   const isExists = await Faculty.findOne({ id });
+const updatedAdmin = async (
+  id: string,
+  payload: Partial<IAdmin>,
+): Promise<IAdmin | null> => {
+  const isExists = await Admin.findOne({ id });
 
-//   if (!isExists) {
-//     throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found');
-//   }
+  if (!isExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found');
+  }
 
-//   const { name, ...facultyData } = payload;
+  const { name, ...adminData } = payload;
 
-//   const updatedFacultyData: Partial<IFaculty> = { ...facultyData };
+  const updatedAdminData: Partial<IAdmin> = { ...adminData };
 
-//   if (name && Object.keys(name).length > 0) {
-//     Object.keys(name).forEach(key => {
-//       const nameKey = `name.${key}`;
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}`;
 
-//       (updatedFacultyData as any)[nameKey] = name[key as keyof typeof name];
-//     });
-//   }
+      (updatedAdminData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
 
-//   const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
-//     new: true,
-//   });
-//   return result;
-// };
+  const result = await Admin.findOneAndUpdate({ id }, updatedAdminData, {
+    new: true,
+  });
+  return result;
+};
 
 // const deleteStudent = async (id: string): Promise<IStudent | null> => {
 //   const result = await Student.findByIdAndDelete(id)
@@ -108,4 +110,5 @@ const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
 export const AdminServices = {
   getAllAdmins,
   getSingleAdmin,
+  updatedAdmin,
 };
