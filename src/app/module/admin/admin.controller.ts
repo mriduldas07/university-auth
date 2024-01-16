@@ -5,6 +5,7 @@ import catchAsync from '../../shared/catchAsync';
 import pick from '../../shared/pick';
 import sendResponse from '../../shared/sendResponse';
 import { adminFilterableFields } from './admin.constant';
+import { IAdmin } from './admin.interface';
 import { AdminServices } from './admin.services';
 
 const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
@@ -22,18 +23,18 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id;
+const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
 
-//   const result = await FacultyServices.getSingleFaculty(id);
+  const result = await AdminServices.getSingleAdmin(id);
 
-//   sendResponse<IFaculty>(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'Faculty retrieved successfully',
-//     data: result,
-//   });
-// });
+  sendResponse<IAdmin>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Admin retrieved successfully',
+    data: result,
+  });
+});
 
 // const updatedFaculty = catchAsync(async (req: Request, res: Response) => {
 //   const id = req.params.id;
@@ -65,4 +66,5 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
 
 export const AdminsController = {
   getAllAdmins,
+  getSingleAdmin,
 };

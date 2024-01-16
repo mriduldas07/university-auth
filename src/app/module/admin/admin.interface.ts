@@ -3,7 +3,7 @@ import { IManagementDepartment } from '../managementDepartment/managementDepartm
 
 type UserName = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 

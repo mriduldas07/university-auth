@@ -65,12 +65,10 @@ const getAllAdmins = async (
   };
 };
 
-// const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
-//   const result = await Faculty.findById(id)
-//     .populate('academicFaculty')
-//     .populate('academicDepartment');
-//   return result;
-// };
+const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
+  const result = await Admin.findById(id).populate('managementDepartment');
+  return result;
+};
 // const updatedFaculty = async (
 //   id: string,
 //   payload: Partial<IFaculty>,
@@ -109,4 +107,5 @@ const getAllAdmins = async (
 
 export const AdminServices = {
   getAllAdmins,
+  getSingleAdmin,
 };

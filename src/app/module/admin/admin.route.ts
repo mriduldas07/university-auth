@@ -6,7 +6,7 @@ const router = express.Router();
 //rourtes
 
 //get single admins
-router.get('/:id');
+router.get('/:id', AdminsController.getSingleAdmin);
 router.get('/:id');
 
 //upadate admins
