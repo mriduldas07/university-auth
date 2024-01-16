@@ -19,22 +19,24 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ManagementDepartmentServices = void 0;
+exports.AdminServices = void 0;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const http_status_1 = __importDefault(require("http-status"));
+const ApiError_1 = __importDefault(require("../../../erros/ApiError"));
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
-const managementDepartment_constant_1 = require("./managementDepartment.constant");
-const managementDepartment_model_1 = require("./managementDepartment.model");
-const createManagement = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield managementDepartment_model_1.ManagementDepartment.create(payload);
-    return result;
-});
-const getAllManagement = (filters, paginationOptins) => __awaiter(void 0, void 0, void 0, function* () {
-    const { limit, page, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(paginationOptins);
+const admin_constant_1 = require("./admin.constant");
+const admin_model_1 = require("./admin.model");
+const getAllAdmins = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
+    const { page, limit, skip, sortBy, sortOrder } = paginationHelper_1.paginationHelpers.calculatePagination(paginationOptions);
     const { searchTerm } = filters, filtersData = __rest(filters, ["searchTerm"]);
     const andConditions = [];
     if (searchTerm) {
         andConditions.push({
-            $or: managementDepartment_constant_1.managementDepartmentSearchableFields.map(field => ({
+            $or: admin_constant_1.adminSearchableFields.map(field => ({
                 [field]: {
                     $regex: searchTerm,
                     $options: 'i',
@@ -54,11 +56,12 @@ const getAllManagement = (filters, paginationOptins) => __awaiter(void 0, void 0
         sortConditions[sortBy] = sortOrder;
     }
     const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
-    const result = yield managementDepartment_model_1.ManagementDepartment.find(whereConditions)
+    const result = yield admin_model_1.Admin.find(whereConditions)
+        .populate('managementDepartment')
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
-    const total = yield managementDepartment_model_1.ManagementDepartment.countDocuments();
+    const total = yield admin_model_1.Admin.countDocuments(whereConditions);
     return {
         meta: {
             page,
@@ -68,24 +71,37 @@ const getAllManagement = (filters, paginationOptins) => __awaiter(void 0, void 0
         data: result,
     };
 });
-const getSingleManagement = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield managementDepartment_model_1.ManagementDepartment.findById(id);
+const getSingleAdmin = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield admin_model_1.Admin.findById(id).populate('managementDepartment');
     return result;
 });
-const updateManagement = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield managementDepartment_model_1.ManagementDepartment.findOneAndUpdate({ _id: id }, payload, {
+const updatedAdmin = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExists = yield admin_model_1.Admin.findOne({ id });
+    if (!isExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Admin not found');
+    }
+    const { name } = payload, adminData = __rest(payload, ["name"]);
+    const updatedAdminData = Object.assign({}, adminData);
+    if (name && Object.keys(name).length > 0) {
+        Object.keys(name).forEach(key => {
+            const nameKey = `name.${key}`;
+            updatedAdminData[nameKey] = name[key];
+        });
+    }
+    const result = yield admin_model_1.Admin.findOneAndUpdate({ id }, updatedAdminData, {
         new: true,
     });
     return result;
 });
-const deleteManagement = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield managementDepartment_model_1.ManagementDepartment.findByIdAndDelete(id);
-    return result;
-});
-exports.ManagementDepartmentServices = {
-    createManagement,
-    getAllManagement,
-    getSingleManagement,
-    updateManagement,
-    deleteManagement,
+// const deleteStudent = async (id: string): Promise<IStudent | null> => {
+//   const result = await Student.findByIdAndDelete(id)
+//     .populate('academicFaculty')
+//     .populate('academicDepartment')
+//     .populate('academicSemester');
+//   return result;
+// };
+exports.AdminServices = {
+    getAllAdmins,
+    getSingleAdmin,
+    updatedAdmin,
 };

@@ -14,5 +14,6 @@ const router = express_1.default.Router();
 router.post('/create-student', (0, validateRequest_1.default)(user_validation_1.UserValidation.createStudentZodSchema), user_controllers_1.userController.createStudent);
 //create faculty
 router.post('/create-faculty', (0, validateRequest_1.default)(user_validation_1.UserValidation.createFacultyZodSchema), user_controllers_1.userController.createFaculty);
-// create department
+// create admin
+router.post('/create-admin', (0, validateRequest_1.default)(user_validation_1.UserValidation.createAdminZodSchema), user_controllers_1.userController.createAdmin);
 exports.userRoutes = router;

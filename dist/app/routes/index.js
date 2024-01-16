@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const academicDepartment_route_1 = require("../module/academicDepartment/academicDepartment.route");
 const academicFaculty_route_1 = require("../module/academicFaculty/academicFaculty.route");
 const academicSemester_route_1 = require("../module/academicSemister/academicSemester.route");
+const admin_route_1 = require("../module/admin/admin.route");
 const faculty_route_1 = require("../module/faculty/faculty.route");
 const managementDepartment_route_1 = require("../module/managementDepartment/managementDepartment.route");
 const student_route_1 = require("../module/student/student.route");
@@ -36,6 +37,10 @@ const moduleRoutes = [
     {
         path: '/faculties',
         route: faculty_route_1.facultyRoutes,
+    },
+    {
+        path: '/admins',
+        route: admin_route_1.adminRoutes,
     },
     {
         path: '/management-departments',
