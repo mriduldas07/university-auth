@@ -26,6 +26,18 @@ const findLastFacultyId = async () => {
     .lean();
   return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
 };
+// last admin id
+const findLastAdminId = async () => {
+  const lastFaculty = await User.findOne(
+    {
+      role: 'admin',
+    },
+    { id: 1, _id: 0 },
+  )
+    .sort({ createdAt: -1 })
+    .lean();
+  return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
+};
 
 // generate student id with last two digit of year + code + 5 digit string
 export const genarateStudentId = async (
@@ -51,6 +63,18 @@ export const genarateFacultyId = async () => {
   let incrementalId = (parseInt(currentId) + 1).toString().padStart(5, '0');
 
   incrementalId = `F-${incrementalId}`;
+
+  return incrementalId;
+};
+
+// generate admin id with "A" and 5 digit string
+export const genarateAdminId = async () => {
+  const currentId =
+    (await findLastAdminId()) || (0).toString().padStart(5, '0');
+
+  let incrementalId = (parseInt(currentId) + 1).toString().padStart(5, '0');
+
+  incrementalId = `A-${incrementalId}`;
 
   return incrementalId;
 };
