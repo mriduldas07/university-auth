@@ -7,9 +7,22 @@ export type IUser = {
   id: string;
   role: string;
   password: string;
+  needPasswordChange: true | false;
   student?: Types.ObjectId | IStudent;
   faculty?: Types.ObjectId | IFaculty;
   admin?: Types.ObjectId | IAdmin;
 };
 
-export type UserModel = Model<IUser, object>;
+// export type IUserMethods = {
+//   isUserExists(id: string): Promise<Partial<IUser | null>>;
+//   isPasswordMatched(givenPass: string, savedPass: string): Promise<boolean>;
+// };
+
+export type UserModel = {
+  isUserExists(
+    id: string,
+  ): Promise<Pick<IUser, 'id' | 'password' | 'needPasswordChange' | 'role'>>;
+  isPasswordMatched(givenPass: string, savedPass: string): Promise<boolean>;
+} & Model<IUser>;
+
+// export type UserModel = Model<IUser, object, IUserMethods>;

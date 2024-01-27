@@ -33,6 +33,7 @@ const createStudent = async (
   const academicSemester = await AcademicSemester.findById(
     student.academicSemester,
   );
+
   // user populated data for return
   let newUserAllData = null;
   // session for transaction
