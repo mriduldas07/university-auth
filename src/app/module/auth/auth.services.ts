@@ -1,10 +1,11 @@
 import httpStatus from 'http-status';
-import { Secret } from 'jsonwebtoken';
+import { JwtPayload, Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../erros/ApiError';
 import { JwtHelpers } from '../../../helpers/jwtHelper';
 import { User } from '../users/user.model';
 import {
+  IChangePassword,
   ILoginUser,
   ILoginUserResponse,
   IRefreshTokenResponse,
@@ -82,6 +83,43 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
     needPasswordChange,
   };
 };
+const changePassword = async (
+  user: JwtPayload,
+  payload: IChangePassword,
+): Promise<void> => {
+  const { newPassword, oldPassword } = payload;
+  const { id } = user;
+
+  // const isUserExists = await User.isUserExists(id);
+
+  const isUserExists = await User.findOne({ id }).select('+password');
+
+  if (!isUserExists) {
+    new ApiError(httpStatus.NOT_FOUND, 'User does not exists');
+  }
+
+  // match password with bcrypt hashed
+  if (
+    isUserExists?.password &&
+    !(await User.isPasswordMatched(oldPassword, isUserExists.password))
+  ) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Old Password is incorrect');
+  }
+
+  // using salt for update and check pass because of (save prehook) only work with instance not statics like save() method not findOneAndUpdate()
+
+  // const updatedData = {
+  //   password: newPassword,
+  //   needsPasswordChange: false,
+  //   passwordChangedAt: new Date(),
+  // };
+
+  // await User.findOneAndUpdate({ id }, updatedData);
+
+  isUserExists!.password = newPassword;
+
+  isUserExists!.save();
+};
 
 const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   let verifiedToken = null;
@@ -122,4 +160,5 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
 export const AuthServices = {
   loginUser,
   refreshToken,
+  changePassword,
 };
